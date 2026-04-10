@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>הסכם רישיון — רויאל-מד AI</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; background: #f5f7fa; color: #333; font-size: 11px; line-height: 1.5; direction: rtl; }
+  .page { max-width: 820px; margin: 30px auto; background: #fff; padding: 36px 44px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); border-radius: 12px; }
+  .header { text-align: center; border-bottom: 3px solid #006889; padding-bottom: 14px; margin-bottom: 16px; }
+  .header h1 { font-size: 20px; color: #006889; margin-bottom: 4px; }
+  .header p { color: #6b7a8d; font-size: 11px; }
+  .parties { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 16px; }
+  .party-box { background: #f5f7fa; border: 1px solid #c8d0db; border-radius: 8px; padding: 10px 14px; }
+  .party-title { font-weight: 700; color: #006889; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; border-bottom: 1px solid #c8d0db; padding-bottom: 5px; }
+  .party-row { font-size: 11px; margin-bottom: 2px; }
+  .party-row span { color: #6b7a8d; }
+  h2 { font-size: 12px; color: #006889; margin: 12px 0 6px; border-right: 3px solid #00AAE6; padding-right: 8px; }
+  p, li { font-size: 11px; margin-bottom: 4px; }
+  ol, ul { padding-right: 18px; }
+  li { margin-bottom: 3px; }
+  .pricing-table { width: 100%; border-collapse: collapse; margin: 8px 0; }
+  .pricing-table th { background: #006889; color: white; padding: 6px 10px; text-align: right; font-size: 11px; }
+  .pricing-table td { padding: 6px 10px; border-bottom: 1px solid #eef1f5; font-size: 11px; }
+  .pricing-table tr:nth-child(even) { background: #f5f7fa; }
+  .highlight { background: #e6f6fc; border: 1px solid #00AAE6; border-radius: 6px; padding: 7px 12px; margin: 8px 0; font-size: 11px; }
+  .footer-note { text-align: center; margin-top: 16px; font-size: 10px; color: #6b7a8d; border-top: 1px solid #eef1f5; padding-top: 10px; }
+  .date-field { display: inline-block; border-bottom: 1px solid #333; min-width: 100px; margin: 0 4px; }
+
+  /* ── אזור חתימה ── */
+  .sign-section { margin-top: 30px; border-top: 2px solid #eef1f5; padding-top: 24px; }
+  .sign-section h3 { font-size: 15px; color: #006889; margin-bottom: 16px; }
+  .sign-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 18px; }
+  .sign-fields label { font-size: 11px; color: #6b7a8d; display: block; margin-bottom: 4px; }
+  .sign-fields input { width: 100%; padding: 8px 12px; border: 1px solid #c8d0db; border-radius: 7px; font-size: 12px; font-family: inherit; }
+  .sign-fields input:focus { outline: none; border-color: #006889; }
+  .canvas-wrap { margin-bottom: 12px; }
+  .canvas-wrap label { font-size: 11px; color: #6b7a8d; display: block; margin-bottom: 6px; }
+  #signCanvas { border: 2px solid #c8d0db; border-radius: 8px; cursor: crosshair; background: #fff; touch-action: none; display: block; width: 100%; height: 150px; }
+  #signCanvas.active { border-color: #006889; }
+  .canvas-btns { display: flex; gap: 8px; margin-top: 6px; }
+  .btn-clear { background: #f1f5f9; color: #64748b; border: none; padding: 6px 14px; border-radius: 7px; cursor: pointer; font-size: 12px; }
+  .btn-submit { background: #006889; color: #fff; border: none; padding: 10px 28px; border-radius: 9px; cursor: pointer; font-size: 14px; font-family: inherit; box-shadow: 0 4px 12px rgba(0,104,137,0.3); }
+  .btn-submit:hover { background: #004d66; }
+  .btn-submit:disabled { background: #94a3b8; cursor: not-allowed; box-shadow: none; }
+  .success-box { display: none; background: #f0fdf4; border: 2px solid #16a34a; border-radius: 10px; padding: 20px; text-align: center; margin-top: 16px; }
+  .success-box h3 { color: #16a34a; font-size: 16px; margin-bottom: 8px; }
+  .success-box p { color: #555; font-size: 13px; }
+  .checkbox-row { display: flex; align-items: center; gap: 8px; margin: 12px 0; font-size: 12px; }
+  .checkbox-row input[type=checkbox] { width: 16px; height: 16px; cursor: pointer; }
+</style>
+</head>
+<body>
+
+<div class="page" id="contract">
+
+  <div class="header">
+    <h1>הסכם רישיון תוכנה</h1>
+    <p>מערכת רויאל-מד AI — ניהול קליניקה אסתטית</p>
+    <p style="margin-top:4px">תאריך: <span class="date-field" id="contractDate"></span></p>
+  </div>
+
+  <div class="parties">
+    <div class="party-box">
+      <div class="party-title">ספק התוכנה</div>
+      <div class="party-row"><strong>מאסטר קוד</strong></div>
+      <div class="party-row"><span>אתר:</span> yairmaster.info</div>
+      <div class="party-row"><span>מייל:</span> przyyryair@gmail.com</div>
+      <div class="party-row"><span>טלפון:</span> 052-209-1733</div>
+    </div>
+    <div class="party-box">
+      <div class="party-title">הלקוח</div>
+      <div class="party-row"><strong>אקסלייר בע"מ</strong></div>
+      <div class="party-row"><span>ח.פ:</span> 517156071</div>
+      <div class="party-row"><span>מייל:</span> munishopsltd@gmail.com</div>
+      <div class="party-row"><span>טלפון:</span> 050-355-5269</div>
+    </div>
+  </div>
+
+  <h2>1. נושא ההסכם</h2>
+  <p>הסכם זה מסדיר את תנאי השימוש ברישיון תוכנת <strong>רויאל-מד AI</strong> — מערכת ניהול קליניקה אסתטית הכוללת בינה מלאכותית לאבחון, הדמיות, ניהול מטופלים, סוכני AI, ניהול לידים ו<strong>בוט וואטסאפ אוטומטי לאיסוף לידים ושירות לקוחות</strong>.</p>
+
+  <h2>2. היקף הרישיון</h2>
+  <ol>
+    <li>הרישיון מוענק לשימוש <strong>בעסק אחד בלבד</strong> (אקסלייר בע"מ).</li>
+    <li>אין להעביר, למכור, להשכיר או לשתף את התוכנה עם צד שלישי.</li>
+    <li>הרישיון תקף למחשב אחד או יותר בתוך אותו עסק.</li>
+    <li>אין לבצע הנדסה לאחור (Reverse Engineering) של התוכנה.</li>
+  </ol>
+
+  <h2>3. תנאי תשלום</h2>
+  <table class="pricing-table">
+    <thead>
+      <tr><th>חבילה</th><th>מחיר לחודש</th><th>סה"כ לתקופה</th><th>תוקף</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>חודשי</td>
+        <td><strong>350 ₪</strong></td>
+        <td>350 ₪ לחודש</td>
+        <td>חודש קלנדרי, חידוש אוטומטי</td>
+      </tr>
+      <tr style="background:#e6f6fc">
+        <td><strong>שנתי מראש ✓</strong></td>
+        <td><strong>350 ₪/חודש</strong></td>
+        <td><strong>4,200 ₪ סה"כ</strong></td>
+        <td>12 חודשים — תשלום אחד מראש</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="highlight">
+    <strong>חבילה נבחרת:</strong> שנתי — תשלום חד פעמי של <strong>4,200 ₪</strong> לתקופה של 12 חודשים.
+  </div>
+
+  <ol>
+    <li>התשלום מתבצע <strong>מראש במלואו</strong> עבור כל תקופת הרישיון.</li>
+    <li>אי תשלום במועד יגרור השעיית הגישה לתוכנה.</li>
+    <li>המחירים סופיים — הספק פטור ממע"מ (עוסק פטור).</li>
+  </ol>
+
+  <h2>4. עלויות API (שימוש ב-AI)</h2>
+  <p>השימוש בתוכנה מחייב מפתחות API חיצוניים (OpenAI). עלויות אלו אינן כלולות במחיר הרישיון ומשולמות ישירות על ידי הלקוח לספק ה-API.</p>
+
+  <h2>5. תמיכה, תחזוקה ועדכונים</h2>
+  <ol>
+    <li>מחיר הרישיון כולל <strong>תחזוקה שוטפת</strong> — תיקוני תקלות, עדכוני תוכנה ושיפורים.</li>
+    <li>תמיכה טכנית כלולה — עד <strong>3 פניות בחודש</strong>, זמן תגובה עד 48 שעות בימי עסקים.</li>
+    <li>עדכונים גדולים (פיצ'רים חדשים) מעבר לתחזוקה השוטפת יתומחרו בנפרד בהסכמת הצדדים.</li>
+  </ol>
+
+  <h2>6. סודיות ופרטיות</h2>
+  <ol>
+    <li>כל נתוני המטופלים נשמרים <strong>מקומית על מחשב הלקוח בלבד</strong> — הספק אינו מקבל גישה לנתונים.</li>
+    <li>הלקוח אחראי לאבטחת הנתונים הרפואיים בהתאם לחוק.</li>
+    <li>הספק מתחייב לסודיות מלאה בכל מידע עסקי שיגיע לידיו.</li>
+  </ol>
+
+  <h2>7. הגבלת אחריות</h2>
+  <p>התוכנה מסופקת "כמות שהיא" (AS IS). הספק אינו אחראי לנזקים ישירים או עקיפים הנובעים משימוש בתוכנה. המלצות ה-AI הן לסיוע בלבד ואינן תחליף לשיקול דעת מקצועי.</p>
+  <p><strong>בוט וואטסאפ:</strong> הספק אינו אחראי לחסימת חשבון הוואטסאפ של הלקוח על ידי Meta/WhatsApp כתוצאה משימוש בבוט. השימוש בבוט הוואטסאפ הוא באחריות הלקוח בלבד. <strong>אין כל התחייבות מצד הספק שחשבון הוואטסאפ לא ייחסם.</strong></p>
+
+  <h2>8. ביטול הסכם ותנאי קצב</h2>
+  <ol>
+    <li>הסכם זה נקבע לתקופה קצובה של <strong>12 חודשים</strong> ממועד החתימה — <strong>הלקוח אינו רשאי לבטל את ההסכם לפני תום תקופה זו.</strong></li>
+    <li>לא תינתן כל החזר כספי בגין ביטול מוקדם מכל סיבה שהיא.</li>
+    <li>הספק רשאי לבטל את ההסכם במקרה של הפרה מהותית על ידי הלקוח, בהודעה של 14 יום מראש.</li>
+    <li>עם תום תקופת ההסכם — יש לחדש את הרישיון או להפסיק כל שימוש בתוכנה.</li>
+  </ol>
+
+  <h2>9. נגישות</h2>
+  <p>התוכנה <strong>אינה כוללת</strong> תוסף נגישות או עמידה בתקן נגישות ישראלי (WCAG). <strong>האחריות להוספת פתרון נגישות חלה על הלקוח בלבד</strong>, על חשבונו ובאחריותו המלאה.</p>
+
+  <h2>10. שונות</h2>
+  <ol>
+    <li>הסכם זה כפוף לדין הישראלי.</li>
+    <li>שינויים בהסכם טעונים הסכמה בכתב של שני הצדדים.</li>
+  </ol>
+
+  <!-- ── אזור חתימה דיגיטלית ── -->
+  <div class="sign-section">
+    <h3>✍️ חתימה דיגיטלית</h3>
+
+    <div class="sign-fields">
+      <div>
+        <label>שם מלא *</label>
+        <input type="text" id="sigName" placeholder="שם ומשפחה" required>
+      </div>
+      <div>
+        <label>שם חברה</label>
+        <input type="text" id="sigCompany" placeholder="שם העסק / חברה" value="אקסלייר בע&quot;מ">
+      </div>
+      <div>
+        <label>ח.פ / ת.ז</label>
+        <input type="text" id="sigId" placeholder="517156071" value="517156071">
+      </div>
+      <div>
+        <label>טלפון</label>
+        <input type="text" id="sigPhone" placeholder="050-0000000">
+      </div>
+      <div style="grid-column:1/-1">
+        <label>אימייל</label>
+        <input type="email" id="sigEmail" placeholder="your@email.com">
+      </div>
+    </div>
+
+    <div class="canvas-wrap">
+      <label>חתימה (חתום בתיבה למטה) *</label>
+      <canvas id="signCanvas" width="730" height="150"></canvas>
+      <div class="canvas-btns">
+        <button class="btn-clear" onclick="clearCanvas()">🗑 נקה חתימה</button>
+      </div>
+    </div>
+
+    <div class="checkbox-row">
+      <input type="checkbox" id="agreeCheck">
+      <label for="agreeCheck">קראתי את ההסכם והנני מסכים/ה לכל תנאיו</label>
+    </div>
+
+    <button class="btn-submit" id="submitBtn" onclick="submitSign()">✅ אני חותם/ת על ההסכם</button>
+
+    <div class="success-box" id="successBox">
+      <h3>✅ ההסכם נחתם בהצלחה!</h3>
+      <p>החתימה התקבלה ונשלחה למאסטר קוד.<br>תודה על האמון!</p>
+    </div>
+  </div>
+
+  <div class="footer-note" style="margin-top:24px">
+    הסכם זה נערך בשני עותקים מקוריים, אחד לכל צד.<br>
+    מאסטר קוד | yairmaster.info
+  </div>
+
+</div>
+
+<script>
+// ── תאריך ──
+const today = new Date();
+document.getElementById("contractDate").textContent =
+  today.toLocaleDateString("he-IL", { day:"2-digit", month:"2-digit", year:"numeric" });
+
+// ── Canvas חתימה ──
+const canvas = document.getElementById("signCanvas");
+const ctx = canvas.getContext("2d");
+let drawing = false;
+let hasSignature = false;
+
+function resizeCanvas() {
+  const ratio = window.devicePixelRatio || 1;
+  const rect = canvas.getBoundingClientRect();
+  canvas.width = rect.width * ratio;
+  canvas.height = rect.height * ratio;
+  ctx.scale(ratio, ratio);
+  ctx.strokeStyle = "#003366";
+  ctx.lineWidth = 2.5;
+  ctx.lineCap = "round";
+  ctx.lineJoin = "round";
+}
+resizeCanvas();
+window.addEventListener("resize", resizeCanvas);
+
+function getPos(e) {
+  const rect = canvas.getBoundingClientRect();
+  const src = e.touches ? e.touches[0] : e;
+  return { x: src.clientX - rect.left, y: src.clientY - rect.top };
+}
+
+canvas.addEventListener("mousedown",  e => { drawing = true; canvas.classList.add("active"); const p = getPos(e); ctx.beginPath(); ctx.moveTo(p.x, p.y); });
+canvas.addEventListener("mousemove",  e => { if (!drawing) return; const p = getPos(e); ctx.lineTo(p.x, p.y); ctx.stroke(); hasSignature = true; });
+canvas.addEventListener("mouseup",    () => { drawing = false; });
+canvas.addEventListener("mouseleave", () => { drawing = false; });
+canvas.addEventListener("touchstart", e => { e.preventDefault(); drawing = true; const p = getPos(e); ctx.beginPath(); ctx.moveTo(p.x, p.y); }, { passive: false });
+canvas.addEventListener("touchmove",  e => { e.preventDefault(); if (!drawing) return; const p = getPos(e); ctx.lineTo(p.x, p.y); ctx.stroke(); hasSignature = true; }, { passive: false });
+canvas.addEventListener("touchend",   () => { drawing = false; });
+
+function clearCanvas() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  hasSignature = false;
+  canvas.classList.remove("active");
+}
+
+// ── שליחה ──
+async function submitSign() {
+  const name    = document.getElementById("sigName").value.trim();
+  const company = document.getElementById("sigCompany").value.trim();
+  const id_num  = document.getElementById("sigId").value.trim();
+  const phone   = document.getElementById("sigPhone").value.trim();
+  const email   = document.getElementById("sigEmail").value.trim();
+  const agreed  = document.getElementById("agreeCheck").checked;
+
+  if (!name)      { alert("נא להזין שם מלא"); return; }
+  if (!hasSignature) { alert("נא לחתום בתיבת החתימה"); return; }
+  if (!agreed)    { alert("נא לאשר שקראת את ההסכם"); return; }
+
+  const btn = document.getElementById("submitBtn");
+  btn.disabled = true;
+  btn.textContent = "שולח...";
+
+  const signature = canvas.toDataURL("image/png");
+  const date = today.toLocaleDateString("he-IL", { day:"2-digit", month:"2-digit", year:"numeric" });
+
+  try {
+    const res = await fetch("/sign", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name, company, id_num, phone, email, date, signature })
+    });
+    const data = await res.json();
+    if (data.ok) {
+      document.getElementById("successBox").style.display = "block";
+      btn.style.display = "none";
+    } else {
+      alert("שגיאה: " + (data.error || "נסה שוב"));
+      btn.disabled = false;
+      btn.textContent = "✅ אני חותם/ת על ההסכם";
+    }
+  } catch {
+    alert("שגיאת תקשורת — נסה שוב");
+    btn.disabled = false;
+    btn.textContent = "✅ אני חותם/ת על ההסכם";
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: royalmed-contract
+    env: node
+    buildCommand: npm install
+    startCommand: node server.js
+    envVars:
+      - key: GMAIL_USER
+        value: przyyryair@gmail.com
+      - key: GMAIL_PASS
+        value: "vnkkzhrqoeljpbgj"
+      - key: NOTIFY_TO
+        value: przyyryair@gmail.com
