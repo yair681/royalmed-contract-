@@ -35,7 +35,9 @@ app.post("/sign", async (req, res) => {
       auth: { user: GMAIL_USER, pass: GMAIL_PASS }
     });
 
-    const signatureImg = `<img src="${signature}" style="max-width:300px;border:1px solid #ccc;border-radius:6px;">`;
+    // המר data URL לבuffer לצורף
+    const base64Data = signature.replace(/^data:image\/png;base64,/, "");
+    const sigBuffer = Buffer.from(base64Data, "base64");
 
     await transporter.sendMail({
       from: `"רויאל-מד חוזים" <${GMAIL_USER}>`,
@@ -52,11 +54,17 @@ app.post("/sign", async (req, res) => {
             <tr><td style="padding:6px;color:#666">מייל:</td><td style="padding:6px">${email || "—"}</td></tr>
             <tr><td style="padding:6px;color:#666">תאריך:</td><td style="padding:6px">${date}</td></tr>
           </table>
-          <h3 style="color:#006889;margin-top:20px">חתימה:</h3>
-          ${signatureImg}
+          <p style="color:#006889;margin-top:16px"><strong>החתימה מצורפת כקובץ תמונה.</strong></p>
           <p style="color:#999;font-size:12px;margin-top:20px">מאסטר קוד | yairmaster.info</p>
         </div>
-      `
+      `,
+      attachments: [
+        {
+          filename: `חתימה-${name}-${date.replace(/\//g,"-")}.png`,
+          content: sigBuffer,
+          contentType: "image/png"
+        }
+      ]
     });
 
     console.log(`[SIGN] ${name} — ${company} — ${new Date().toLocaleString("he-IL")}`);
